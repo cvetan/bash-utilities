@@ -3,9 +3,9 @@
 source scripts/main_menu.sh
 
 function display_adminer_menu() {
-    echo '[1.] Install adminer'
-    echo '[2.] Update adminer'
-    echo '[3.] Uninstall adminer'
+    echo '[1] Install adminer'
+    echo '[2] Update adminer'
+    echo '[3] Uninstall adminer'
 
     read selected
 
@@ -26,7 +26,7 @@ function adminer_install() {
         echo 'Adminer is already installed. Maybe run update?'
         display_adminer_menu
     fi
-    mkdir /usr/share/adminer;
+    sudo mkdir /usr/share/adminer;
     wget -q "http://www.adminer.org/latest.php" -O /usr/share/adminer/latest.php;
     ln -s /usr/share/adminer/latest.php /usr/share/adminer/adminer.php;
     echo "Alias /adminer /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf > /dev/null;
@@ -46,7 +46,7 @@ function adminer_update() {
 }
 
 function adminer_uninstall() {
-    a2disconf adminer.conf > /dev/null;
+    sudo a2disconf adminer.conf > /dev/null;
     systemctl reload apache2;
     systemctl restart apache2;
     rm /etc/apache2/conf-available/adminer.conf;
